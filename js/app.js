@@ -18,7 +18,7 @@ $(document).ready(function(){
 function simulate(id){
   $.ajax({
     dataType: 'json',
-    url: 'http://chess-puzzles.herokuapp.com/api/v1/puzzles/'+id,
+    url: 'https://chess-puzzles.herokuapp.com/api/v1/puzzles/'+id,
     success: function(results){
       $("#menu").css("display", "none")
       $("#simulator_container").css("display", "block")
