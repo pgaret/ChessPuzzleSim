@@ -3,7 +3,7 @@ var simulator
 $(document).ready(function(){
   $.ajax({
     dataType: 'json',
-    url: 'http://chess-puzzles.herokuapp.com/api/v1/puzzles',
+    url: 'https://chess-puzzles.herokuapp.com/api/v1/puzzles',
     success: function(results){
       $("#puzzle").html(results)
       for (let i = 0; i < results.length; i++){
