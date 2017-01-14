@@ -28,6 +28,7 @@
 }
 
 #pause{
+  display: none;
   background-image: url('./Pause.png');
   background-size: 100% 100%;
 }

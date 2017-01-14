@@ -30,10 +30,14 @@ function simulate(id){
 
 function runSim(){
   simulator.paused = false
+  $("#pause").css("display", "inline-block")
+  $("#play").css("display", "none")
   setTimeout(simulator.runSim(), 1)
 }
 
 function pauseSim(){
+  $("#play").css("display", "inline-block")
+  $("#pause").css("display", "none")
   simulator.paused = true
 }
 
