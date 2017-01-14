@@ -29,21 +29,17 @@ function simulate(id){
 }
 
 function runSim(){
-  $("#pause").css("display", "inline-block")
-  $("#play").css("display", "none")
   simulator.paused = false
   setTimeout(simulator.runSim(), 1)
 }
 
 function pauseSim(){
   simulator.paused = true
-  $("#play").css("display", "inline-block")
-  $("#pause").css("display", "none")
 }
 
 function changeSimOptions(speed, direction){
   simulator.delay = speed
   simulator.direction = direction
   simulator.paused = false
-  if (!simulator.runningSim) {runSim()}
+  if (!simulator.runningSim) {setTimeout(runSim(), simulator.delay)}
 }

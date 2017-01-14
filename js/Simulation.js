@@ -29,15 +29,19 @@ class Simulation{
           }
           simulator.changeBoard(fromSpace, toSpace)
           this.runningSim = false
-          setTimeout(render, simulator.delay)
           simulator.current -= simulator.direction
+          setTimeout(render, simulator.delay)
         }
         else {
           if (simulator.current === -2) {simulator.current += 1}
+          if (simulator.current === 3) {simulator.current -= 1}
           simulator.runningSim = false
-          $("#play").css("display", "inline-block")
-          $("#pause").css("display", "none")
+          // $("#play").css("display", "inline-block")
+          // $("#pause").css("display", "none")
         }
+      }
+      else {
+        setTimeout(render, simulator.delay)
       }
     }, simulator.delay)
   }
