@@ -9,7 +9,9 @@ class Simulation{
     this.direction = 1
     this.runningSim = false
     this.takenPieces=[]
+    this.highlights = []
     this.paused = false
+
     this.setBoard(this.game_board["rows"], this.game_board["cols"], this.past_moves_board[this.past_moves_board.length-1]["pieces"], this.past_moves_board[0]["special_square"])
   }
 
@@ -59,7 +61,7 @@ class Simulation{
       for (let j = 0; j < cols; j++){
         let space_class = "spot"
         let img_src = "<img id='piece' src='./css/"
-        i%2 === j%2 ? space_class += " white" : space_class += " black"
+        i%2 === j%2 ? space_class += " light" : space_class += " dark"
         if (special_square) { if (special_square['row'] === i+1 && special_square['col'] === j+1) { space_class += " special" } }
         if (pieces[i*cols+j] !== 'e'){
           img_src += pieces[i*cols+j].toUpperCase() === pieces[i*cols+j] ? 'B' : 'W'
@@ -99,6 +101,20 @@ class Simulation{
         $("#"+fromIndex).empty().append(`<img sid="piece" src=${this.takenPieces[i][0]}></img>`)
       }
     }
+    for (let i = 0; i < this.highlights.length; i++){
+      if (this.highlights[i]){
+        this.highlights[i].attr("class").includes("dark") ? this.highlights[i].css("border", "solid medium darkgrey") : this.highlights[i].css("border", "solid medium lightgrey")
+      }
+    }
+    this.highlights[1] = $("#"+fromIndex); this.highlights[2] = $("#"+toIndex)
+    $("#"+fromIndex).css("border", "medium solid green")
+    $("#"+toIndex).css("border", "medium solid green")
+    if (this.current === -1) { if (this.game_board["board"]["special_square"]){
+      // debugger
+      let special_square = [this.game_board["board"]["special_square"]["row"], this.game_board["board"]["special_square"]["col"]]
+      $("#"+this.getId(special_square)).css("border", "medium solid red")
+      this.highlights[0] = $("#"+this.getId(special_square))
+    } }
     temp
       .css('position', 'absolute')
       .css('left', oldOffset.left)

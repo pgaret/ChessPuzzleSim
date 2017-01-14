@@ -56,13 +56,13 @@
   display: inline-block;
 }
 
-.black{
-  background-color: brown;
-  color: white;
-  border: solid medium brown;
+.dark{
+  background-color: darkgrey;
+  color: light;
+  border: solid medium darkgrey;
 }
 
-.white{
+.light{
   background-color: lightgrey;
   border: solid medium lightgrey;
 
