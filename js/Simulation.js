@@ -85,6 +85,7 @@ class Simulation{
     }
     let orig_copy = $("#"+fromIndex).children()
     let temp = orig_copy.clone().appendTo('body')
+    temp.css("display", "inline-block")
     if (!$("#"+toIndex).children().is('span')){
       let img_src = $("#"+toIndex).children().prop('src')
       img_src = "."+img_src.slice(img_src.length - 11, img_src.length)
@@ -92,13 +93,15 @@ class Simulation{
     }
     $("#"+toIndex).empty()
     let new_copy = orig_copy.clone().appendTo("#"+toIndex)
+    new_copy.css("display", "inline-block")
     let oldOffset = orig_copy.offset()
     $("#"+fromIndex).empty().append("<span id='piece'></span>")
     let newOffset = new_copy.offset()
     for (let i = 0; i < this.takenPieces.length; i++){
       if (this.takenPieces[i][1] === this.current && this.takenPieces[i][2] !== this.direction){
         // debugger
-        $("#"+fromIndex).empty().append(`<img sid="piece" src=${this.takenPieces[i][0]}></img>`)
+        $("#"+fromIndex).empty().append(`<img id="piece" src=${this.takenPieces[i][0]}></img>`)
+        $("#"+fromIndex).css("display", "inline-block")
       }
     }
     for (let i = 0; i < this.highlights.length; i++){
@@ -120,9 +123,12 @@ class Simulation{
       .css('left', oldOffset.left)
       .css('top', oldOffset.top)
       .css('zIndex', 1000)
+      .css("display", "inline")
+      .css("width", "25px")
+      .css("height", "25px")
     new_copy.css("display", "none")
     temp.animate({'top': newOffset.top, 'left':newOffset.left}, this.delay, function(){
-       new_copy.css("display", "block")
+       new_copy.css("display", "inline-block")
        temp.remove()
     })
   }

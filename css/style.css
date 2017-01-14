@@ -45,20 +45,19 @@
 
 #piece{
   text-align: center;
-  width: 50px;
-  height: 50px;
+  width: 75%;
+  height: 75%;
   display: inline-block;
 }
 
 .spot{
-  width: 50px;
-  height: 50px;
+  width: 4%;
+  height: 4vw;
   display: inline-block;
 }
 
 .dark{
   background-color: darkgrey;
-  color: light;
   border: solid medium darkgrey;
 }
 
