@@ -6,7 +6,7 @@ class Simulation{
     this.board_size = [this.game_board["rows"], this.game_board["cols"]]
     this.current = this.past_moves_board.length-2
     this.delay = 500
-    this.direction = 1
+    this.direction = 0
     this.runningSim = false
     this.takenPieces=[]
     this.highlights = []
@@ -26,7 +26,7 @@ class Simulation{
         if (simulator.current >= 3) {
           simulator.current = simulator.direction === 1 ? 2 : 3
         }
-        if (simulator.step === true && simulator.direction === -1 && simulator.current > -2) {simulator.current += 1}
+        if (simulator.step === true && simulator.direction === -1 && simulator.current > -1) {simulator.current += 1}
         console.log("This sim: "+simulator.direction+" "+simulator.current)
         if ((simulator.direction > 0 && simulator.current > -2 && simulator.current < simulator.past_moves_board.length-1) || (simulator.direction < 0 && simulator.current > -2 && simulator.current+1 < simulator.past_moves_board.length)){
           let fromSpace; let toSpace
@@ -59,7 +59,7 @@ class Simulation{
   }
 
   getId(space){
-    return this.board_size[1]*space[0]+space[1]-1
+    return this.board_size[1]*(space[0])+(space[1])
   }
 
   setBoard(rows, cols, pieces, special_square){
