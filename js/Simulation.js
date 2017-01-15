@@ -10,17 +10,25 @@ class Simulation{
     this.runningSim = false
     this.takenPieces=[]
     this.highlights = []
-    this.paused = false
-
+    this.paused = true
+    this.step = false
     this.setBoard(this.game_board["rows"], this.game_board["cols"], this.past_moves_board[this.past_moves_board.length-1]["pieces"], this.past_moves_board[0]["special_square"])
   }
 
   runSim(){
     this.runningSim = true
     setTimeout(function render(){
-      // debugger
-      if (!simulator.paused){
-        if ((simulator.direction > 0 && simulator.current > -2 && simulator.current+1 < simulator.past_moves_board.length) || (simulator.direction < 0 && simulator.current > -2 && simulator.current+1 < simulator.past_moves_board.length)){
+      if (!simulator.paused || simulator.step === true){
+        // debugger
+        if (simulator.current <= -2) {
+          simulator.current = simulator.direction === 1 ? -2 : -1
+        }
+        if (simulator.current >= 3) {
+          simulator.current = simulator.direction === 1 ? 2 : 3
+        }
+        if (simulator.step === true && simulator.direction === -1 && simulator.current > -2) {simulator.current += 1}
+        console.log("This sim: "+simulator.direction+" "+simulator.current)
+        if ((simulator.direction > 0 && simulator.current > -2 && simulator.current < simulator.past_moves_board.length-1) || (simulator.direction < 0 && simulator.current > -2 && simulator.current+1 < simulator.past_moves_board.length)){
           let fromSpace; let toSpace
           if (simulator.current >= 0) {
             fromSpace = [simulator.past_moves_board[simulator.current]["last_move_squares"]["from"]["row"], simulator.past_moves_board[simulator.current]["last_move_squares"]["from"]["col"]]
@@ -32,11 +40,11 @@ class Simulation{
           simulator.changeBoard(fromSpace, toSpace)
           this.runningSim = false
           simulator.current -= simulator.direction
+          console.log("Next sim: "+simulator.direction+" "+simulator.current)
+          simulator.step = false
           setTimeout(render, simulator.delay)
         }
         else {
-          if (simulator.current === -2) {simulator.current += 1}
-          if (simulator.current === 3) {simulator.current -= 1}
           simulator.runningSim = false
           $("#play").css("display", "inline-block")
           $("#pause").css("display", "none")

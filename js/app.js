@@ -29,7 +29,6 @@ function simulate(id){
 }
 
 function runSim(){
-  simulator.paused = false
   $("#pause").css("display", "inline-block")
   $("#play").css("display", "none")
   setTimeout(simulator.runSim(), 1)
@@ -46,4 +45,12 @@ function changeSimOptions(speed, direction){
   simulator.direction = direction
   simulator.paused = false
   if (!simulator.runningSim) {setTimeout(runSim(), simulator.delay)}
+}
+
+function stepSim(num){
+  simulator.paused = true
+  simulator.step = true
+  simulator.direction = num
+  simulator.delay = 500
+  runSim()
 }
