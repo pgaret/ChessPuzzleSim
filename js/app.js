@@ -7,7 +7,7 @@ $(document).ready(function(){
     success: function(results){
       $("#puzzle").html(results)
       for (let i = 0; i < results.length; i++){
-        let puzzle_data = results[i]["game_board"]["Puzzle_No"]+" | "+results[i]["game_board"]["Rating"]+" | "+results[i]["game_board"]["Played_times"]
+        let puzzle_data = results[i]["Puzzle_No"]+" | "+results[i]["Rating"]+" | "+results[i]["Played_times"]
         let str = `<button onClick='simulate(${results[i]['ind']})'>${puzzle_data}</button><br>`
         $("#menu").append(str)
       }
@@ -50,6 +50,7 @@ function changeSimOptions(speed, direction){
 function stepSim(num){
   simulator.paused = true
   simulator.step = true
+  if (num !== simulator.direction) { simulator.current += num }
   simulator.direction = num
   simulator.delay = 500
   runSim()

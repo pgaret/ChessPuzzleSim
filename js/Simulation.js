@@ -1,10 +1,10 @@
 class Simulation{
 
   constructor(simulation){
-    this.game_board = simulation["game_board"]
-    this.past_moves_board = simulation["past_moves_board"]
-    this.board_size = [this.game_board["rows"], this.game_board["cols"]]
-    this.current = this.past_moves_board.length-2
+    this.moves = simulation["past_moves_board"]
+    this.board_size = [simulation["rows"], simulation["cols"]]
+    this.starting_board = simulation["pieces"]
+    this.current = -1
     this.delay = 500
     this.direction = 0
     this.runningSim = false
@@ -12,7 +12,7 @@ class Simulation{
     this.highlights = []
     this.paused = true
     this.step = false
-    this.setBoard(this.game_board["rows"], this.game_board["cols"], this.past_moves_board[this.past_moves_board.length-1]["pieces"], this.past_moves_board[0]["special_square"])
+    this.setBoard(this.board_size[0], this.board_size[1], this.starting_board)
   }
 
   runSim(){
@@ -20,26 +20,16 @@ class Simulation{
     setTimeout(function render(){
       if (!simulator.paused || simulator.step === true){
         // debugger
-        if (simulator.current <= -2) {
-          simulator.current = simulator.direction === 1 ? -2 : -1
-        }
-        if (simulator.current >= 3) {
-          simulator.current = simulator.direction === 1 ? 2 : 3
-        }
-        if (simulator.step === true && simulator.direction === -1 && simulator.current > -1) {simulator.current += 1}
-        console.log("This sim: "+simulator.direction+" "+simulator.current)
-        if ((simulator.direction > 0 && simulator.current > -2 && simulator.current < simulator.past_moves_board.length-1) || (simulator.direction < 0 && simulator.current > -2 && simulator.current+1 < simulator.past_moves_board.length)){
-          let fromSpace; let toSpace
-          if (simulator.current >= 0) {
-            fromSpace = [simulator.past_moves_board[simulator.current]["last_move_squares"]["from"]["row"], simulator.past_moves_board[simulator.current]["last_move_squares"]["from"]["col"]]
-            toSpace = [simulator.past_moves_board[simulator.current]["last_move_squares"]["to"]["row"], simulator.past_moves_board[simulator.current]["last_move_squares"]["to"]["col"]]
-          } else {
-            fromSpace = [simulator.game_board["board"]["last_move_squares"]["from"]["row"], simulator.game_board["board"]["last_move_squares"]["from"]["col"]]
-            toSpace = [simulator.game_board["board"]["last_move_squares"]["to"]["row"], simulator.game_board["board"]["last_move_squares"]["to"]["col"]]
-          }
+        if (simulator.current < 0 && simulator.direction === 1) { simulator.current = 0 }
+        if (simulator.current > simulator.moves.length-1 && simulator.direction === -1) { simulator.current = simulator.moves.length - 1 }
+
+        if (simulator.current > -1 && simulator.current < simulator.moves.length){
+        // if ((simulator.direction > 0 && simulator.current > -2 && simulator.current < simulator.moves.length-1) || (simulator.direction < 0 && simulator.current > -2 && simulator.current+1 < simulator.moves.length)){
+          let fromSpace = [simulator.moves[simulator.current]["last_move_squares"]["from"]["row"], simulator.moves[simulator.current]["last_move_squares"]["from"]["col"]]
+          let toSpace = [simulator.moves[simulator.current]["last_move_squares"]["to"]["row"], simulator.moves[simulator.current]["last_move_squares"]["to"]["col"]]
           simulator.changeBoard(fromSpace, toSpace)
           this.runningSim = false
-          simulator.current -= simulator.direction
+          simulator.current += simulator.direction
           console.log("Next sim: "+simulator.direction+" "+simulator.current)
           simulator.step = false
           setTimeout(render, simulator.delay)
