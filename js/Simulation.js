@@ -1,5 +1,11 @@
-class Simulation{
+//The Simulation class controls the board, organizing movement,
+//      and removing/adding pieces as necessary
+//Current keeps track of the state of the board, direction is whether we're getting
+//      closer to the start of the board or the end
+//runningSim tells app whether pushing step buttons starts or alters the path of the sim
+//TakenPieces tells changeBoard whether this move, in this direction, involves adding pieces back on
 
+class Simulation{
   constructor(simulation){
     this.moves = simulation["past_moves_board"]
     this.board_size = [simulation["rows"], simulation["cols"]]
@@ -15,22 +21,24 @@ class Simulation{
     this.setBoard(this.board_size[0], this.board_size[1], this.starting_board)
   }
 
+  // - If we're not paused, we're going to move the board (step overrides pause for one move)
+  // - If we're not in the range of the move list and we're going the right way, we
+  //    should move into range
+  // - We change the board if we're in range (which is always the case unless we've pushed
+  //    a button that would go farther than the move range)
+  // - If the button is invalid or we're paused, display Play instead of Pause
   runSim(){
     this.runningSim = true
     setTimeout(function render(){
       if (!simulator.paused || simulator.step === true){
-        // debugger
         if (simulator.current < 0 && simulator.direction === 1) { simulator.current = 0 }
         if (simulator.current > simulator.moves.length-1 && simulator.direction === -1) { simulator.current = simulator.moves.length - 1 }
-
         if (simulator.current > -1 && simulator.current < simulator.moves.length){
-        // if ((simulator.direction > 0 && simulator.current > -2 && simulator.current < simulator.moves.length-1) || (simulator.direction < 0 && simulator.current > -2 && simulator.current+1 < simulator.moves.length)){
           let fromSpace = [simulator.moves[simulator.current]["last_move_squares"]["from"]["row"], simulator.moves[simulator.current]["last_move_squares"]["from"]["col"]]
           let toSpace = [simulator.moves[simulator.current]["last_move_squares"]["to"]["row"], simulator.moves[simulator.current]["last_move_squares"]["to"]["col"]]
           simulator.changeBoard(fromSpace, toSpace)
           this.runningSim = false
           simulator.current += simulator.direction
-          console.log("Next sim: "+simulator.direction+" "+simulator.current)
           simulator.step = false
           setTimeout(render, simulator.delay)
         }
@@ -48,10 +56,13 @@ class Simulation{
     }, simulator.delay)
   }
 
+  //Id's are based on the index in the array of spots on the board
   getId(space){
     return this.board_size[1]*(space[0])+(space[1])
   }
 
+  // - Initial setup, get our full board with the appropriate coloured squares
+  // - Assign pieces to squares, giving them ids to make them easy to keep track of
   setBoard(rows, cols, pieces, special_square){
     $("#simulator").empty()
     while (pieces.includes('/')){pieces = pieces.replace('/', '')}
@@ -73,8 +84,14 @@ class Simulation{
     }
   }
 
+  //Change the board
+  // - Based on which direction we're going, switch the spaces accordingly
+  // - If the toSpace is not empty, put the taken piece in the takenPieces array
+  // - We check whether for this value of current and direction any pieces need
+  //    to be put back on in the fromSpace
+  // - We animate by creating a clone and moving it in absolute space between
+  //    target and destination
   changeBoard(fromSpace, toSpace){
-    // debugger
     let fromIndex; let toIndex
     if (this.direction === 1){
       fromIndex = this.getId(fromSpace); toIndex = this.getId(toSpace)
@@ -82,7 +99,8 @@ class Simulation{
       fromIndex = this.getId(toSpace); toIndex = this.getId(fromSpace)
     }
     let orig_copy = $("#"+fromIndex).children()
-    let temp = orig_copy.clone().appendTo('body')
+    let temp = orig_copy.clone()
+    temp.appendTo('body')
     temp.css("display", "inline-block")
     if (!$("#"+toIndex).children().is('span')){
       let img_src = $("#"+toIndex).children().prop('src')
@@ -97,7 +115,6 @@ class Simulation{
     let newOffset = new_copy.offset()
     for (let i = 0; i < this.takenPieces.length; i++){
       if (this.takenPieces[i][1] === this.current && this.takenPieces[i][2] !== this.direction){
-        // debugger
         $("#"+fromIndex).empty().append(`<img id="piece" src=${this.takenPieces[i][0]}></img>`)
         $("#"+fromIndex).css("display", "inline-block")
       }

@@ -1,6 +1,8 @@
 var simulator
 
+//Get all our puzzles so the user can pick the one they want
 $(document).ready(function(){
+  //Loading text since sometimes it takes a long while
   $("#loading").css("display", "block")
   $.ajax({
     dataType: 'json',
@@ -16,6 +18,7 @@ $(document).ready(function(){
   })
 })
 
+//Grab the sim data for the selected puzzle
 function simulate(id){
   $.ajax({
     dataType: 'json',
@@ -23,18 +26,19 @@ function simulate(id){
     success: function(results){
       $("#menu").css("display", "none")
       $("#simulator_container").css("display", "block")
-      $("#puzzle").html(results)
         simulator = new Simulation(results[0])
       }
   })
 }
 
+//While we run the sim, the pause button should be visible and not the play button
 function runSim(){
   $("#pause").css("display", "inline-block")
   $("#play").css("display", "none")
   setTimeout(simulator.runSim(), 1)
 }
 
+//Invert that over here
 function pauseSim(){
   $("#play").css("display", "inline-block")
   $("#pause").css("display", "none")
@@ -45,9 +49,14 @@ function changeSimOptions(speed, direction){
   simulator.delay = speed
   simulator.direction = direction
   simulator.paused = false
+  //If the sim is already running, just change the values
+  //Otherwise we'll need to get it running again
   if (!simulator.runningSim) {setTimeout(runSim(), simulator.delay)}
 }
 
+//Step the sim in a direction once
+//Changing directions requires a double adjustment for current
+//   - Happens here on line 63 & line 41 in Simulation.js
 function stepSim(num){
   simulator.paused = true
   simulator.step = true
