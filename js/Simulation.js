@@ -110,12 +110,11 @@ class Simulation{
     this.highlights[1] = $("#"+fromIndex); this.highlights[2] = $("#"+toIndex)
     $("#"+fromIndex).css("border", "medium solid green")
     $("#"+toIndex).css("border", "medium solid green")
-    if (this.current === -1) { if (this.game_board["board"]["special_square"]){
-      // debugger
-      let special_square = [this.game_board["board"]["special_square"]["row"], this.game_board["board"]["special_square"]["col"]]
+    if (this.moves[this.current]["special_square"]){
+      let special_square = [this.moves[this.current]["special_square"]["row"], this.moves[this.current]["special_square"]["col"]]
       $("#"+this.getId(special_square)).css("border", "medium solid red")
       this.highlights[0] = $("#"+this.getId(special_square))
-    } }
+    }
     temp
       .css('position', 'absolute')
       .css('left', oldOffset.left)
