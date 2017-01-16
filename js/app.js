@@ -1,11 +1,12 @@
 var simulator
 
 $(document).ready(function(){
+  $("#loading").css("display", "block")
   $.ajax({
     dataType: 'json',
     url: 'https://chess-puzzles.herokuapp.com/api/v1/puzzles',
     success: function(results){
-      $("#puzzle").html(results)
+      $("#loading").css("display", "none")
       for (let i = 0; i < results.length; i++){
         let puzzle_data = results[i]["Puzzle_No"]+" | "+results[i]["Rating"]+" | "+results[i]["Played_times"]
         let str = `<button onClick='simulate(${results[i]['ind']})'>${puzzle_data}</button><br>`
