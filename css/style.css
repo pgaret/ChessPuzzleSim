@@ -7,6 +7,10 @@
   text-align: center;
 }
 
+#insert{
+  display: none;
+}
+
 #loading{
   display: none;
 }
@@ -55,8 +59,8 @@
 }
 
 .spot{
-  width: 4%;
-  height: 4vw;
+  width: 1%;
+  height: 1%;
   display: inline-block;
 }
 

@@ -67,6 +67,7 @@ class Simulation{
     $("#simulator").empty()
     while (pieces.includes('/')){pieces = pieces.replace('/', '')}
     for (let i = 0; i < rows; i++){
+      let row = '<div>'
       for (let j = 0; j < cols; j++){
         let space_class = "spot"
         let img_src = "<img id='piece' src='./css/"
@@ -78,9 +79,13 @@ class Simulation{
         } else {
           img_src = "<span id='piece'></span>"
         }
-        $("#simulator").append(`<span id=${i*this.board_size[1]+j} class='${space_class}'>${img_src}</span>`)
-        if (j === cols - 1) {$("#simulator").append("<br>")}
+        row += `<span id=${i*this.board_size[1]+j} class='${space_class}'>${img_src}</span>`
+        // $("#simulator").append(`<span id=${i*this.board_size[1]+j} class='${space_class}'>${img_src}</span>`)
+        // if (j === cols - 1) {$("#simulator").append("<br>")}
       }
+      row += "</div>"
+      $("#simulator").append(row)
+      row = ""
     }
   }
 

@@ -10,8 +10,8 @@ $(document).ready(function(){
     success: function(results){
       $("#loading").css("display", "none")
       for (let i = 0; i < results.length; i++){
-        let puzzle_data = results[i]["Puzzle_No"]+" | "+results[i]["Rating"]+" | "+results[i]["Played_times"]
-        let str = `<button onClick='simulate(${results[i]['ind']})'>${puzzle_data}</button><br>`
+        let puzzle_data = results[i]["puzzle_no"]+" | "+results[i]["rating"]+" | "+results[i]["played_times"]
+        let str = `<button onClick='simulate("${results[i]['_id']['$oid']}")'>${puzzle_data}</button><br>`
         $("#menu").append(str)
       }
     }
@@ -64,4 +64,9 @@ function stepSim(num){
   simulator.direction = num
   simulator.delay = 500
   runSim()
+}
+
+function addPuzzle(){
+  $("#menu").css("display", "none")
+  $("#insert").css("display", "block")
 }
