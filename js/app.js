@@ -1,12 +1,14 @@
 var simulator
+var uri = document.URL.includes("pgaret.github.io") ? 'https://chess-puzzles.herokuapp.com' : 'http://localhost:9393'
 
 //Get all our puzzles so the user can pick the one they want
 $(document).ready(function(){
+  $("form")[0].action = uri+"api/v1/puzzles"
   //Loading text since sometimes it takes a long while
   $("#loading").css("display", "block")
   $.ajax({
     dataType: 'json',
-    url: 'https://chess-puzzles.herokuapp.com/api/v1/puzzles',
+    url: uri+'/api/v1/puzzles',
     success: function(results){
       $("#loading").css("display", "none")
       for (let i = 0; i < results.length; i++){
@@ -22,7 +24,7 @@ $(document).ready(function(){
 function simulate(id){
   $.ajax({
     dataType: 'json',
-    url: 'https://chess-puzzles.herokuapp.com/api/v1/puzzles/'+id,
+    url: uri+'/api/v1/puzzles/'+id,
     success: function(results){
       $("#menu").css("display", "none")
       $("#simulator_container").css("display", "block")
