@@ -3,7 +3,7 @@ var uri = document.URL.includes("pgaret.github.io") ? 'https://chess-puzzles.her
 
 //Get all our puzzles so the user can pick the one they want
 $(document).ready(function(){
-  $("form")[0].action = uri+"api/v1/puzzles"
+  $("form")[0].action = uri+"/api/v1/puzzles"
   //Loading text since sometimes it takes a long while
   $("#loading").css("display", "block")
   $.ajax({
