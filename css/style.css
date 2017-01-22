@@ -3,11 +3,23 @@
   padding: 0;
 }
 
+form{
+  display: inline-block;
+}
+
 #menu{
   text-align: center;
 }
 
 #insert{
+  display: none;
+}
+
+#edit{
+  display: none;
+}
+
+#edit_loaded{
   display: none;
 }
 

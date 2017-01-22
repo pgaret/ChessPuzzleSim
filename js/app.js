@@ -3,7 +3,7 @@ var uri = document.URL.includes("pgaret.github.io") ? 'https://chess-puzzles.her
 
 //Get all our puzzles so the user can pick the one they want
 $(document).ready(function(){
-  $("form")[0].action = uri+"/api/v1/puzzles"
+  $("#insert_form")[0].action = uri+"/api/v1/puzzles"
   //Loading text since sometimes it takes a long while
   $("#loading").css("display", "block")
   $.ajax({
@@ -13,7 +13,8 @@ $(document).ready(function(){
       $("#loading").css("display", "none")
       for (let i = 0; i < results.length; i++){
         let puzzle_data = results[i]["puzzle_no"]+" | "+results[i]["rating"]+" | "+results[i]["played_times"]
-        let str = `<button onClick='simulate("${results[i]['_id']['$oid']}")'>${puzzle_data}</button><br>`
+        let str = `<button onClick='simulate("${results[i]['_id']['$oid']}")'>${puzzle_data}</button>
+                  <button onClick='editPuzzle("${results[i]['_id']['$oid']}")'>Edit</button><br>`
         $("#menu").append(str)
       }
     }
@@ -71,4 +72,19 @@ function stepSim(num){
 function addPuzzle(){
   $("#menu").css("display", "none")
   $("#insert").css("display", "block")
+}
+
+function editPuzzle(id){
+  $("#menu").css("display", "none")
+  $("#edit").css("display", "block")
+  $.ajax({
+      dataType: 'json',
+      url: uri+'/api/v1/puzzles/'+id,
+      success: function(results){
+        $("#edit_loading").css("display", "none")
+        $("#edit_loaded").css("display", "block")
+        $("#edited").text(JSON.stringify(results[0]))
+        $("#edit_form")[0].action = uri+`/api/v1/puzzles/${id}`
+      }
+  })
 }

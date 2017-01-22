@@ -16,11 +16,21 @@
       <h4>Puzzle ID | Rating | Played Times</h4>
     </div>
     <div id="insert">
-      Copy/Paste your puzzle into this field
-      <form method="post">
-        <textarea name="data" value="board_data"></textarea>
+      Copy/Paste your unique puzzle into this field
+      <form id="insert_form" method="post">
+        <textarea id="added" name="data" value="board_data"></textarea>
         <input type="submit" value="submit"></input>
       </form>
+    </div>
+    <div id="edit">
+      <div id="edit_loading">Loading...</div>
+      <div id="edit_loaded">
+        Edit the puzzle (cannot be the same as existing puzzles)
+        <form id="edit_form" method="post">
+          <textarea id="edited" name="data" value="board_data"></textarea>
+          <input type="submit" value="submit"></input>
+        </form>
+      </div>
     </div>
     <div style="text-align: center" id="loading">Loading...
     </div>
